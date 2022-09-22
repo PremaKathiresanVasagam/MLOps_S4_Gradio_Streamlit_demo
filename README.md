@@ -1,4 +1,4 @@
-# EMLO V2 - Session 02
+# EMLO V3 - Session 03
 
 ## 02 - Pytorch lightning with timm model and cifar10 datatset - Docker creation
 
