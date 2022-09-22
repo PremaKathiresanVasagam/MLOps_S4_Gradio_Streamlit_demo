@@ -1,5 +1,5 @@
 stages:
   train-mnist:
-    cmd: python3 src/train.py experiment=mnist
+    cmd: python3 src/train.py experiment=cifar10
     deps:
-      - data/MNIST
+      - data/CIFAR10
