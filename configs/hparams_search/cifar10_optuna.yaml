@@ -9,6 +9,7 @@ defaults:
   - override /model: timm.yaml
   - override /callbacks: default.yaml
   - override /trainer: default.yaml
+  - override /logger: tensorboard.yaml
 
 # choose metric which will be optimized by Optuna
 # make sure this is the correct name of some metric logged in lightning module!

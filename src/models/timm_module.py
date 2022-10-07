@@ -4,6 +4,9 @@ import torch
 from pytorch_lightning import LightningModule
 from torchmetrics import MaxMetric
 from torchmetrics.classification.accuracy import Accuracy
+from pytorch_lightning import Trainer
+from torchmetrics import Accuracy, MetricCollection
+#from pytorch_lightning.loggers import TensorBoardLogger, log_hyperparams
 
 
 class TIMMLitModule(LightningModule):
@@ -31,6 +34,9 @@ class TIMMLitModule(LightningModule):
         # this line allows to access init params with 'self.hparams' attribute
         # also ensures init params will be stored in ckpt
         self.save_hyperparameters(logger=False, ignore=["net"])
+        # log hyperparams
+
+        #metric = MetricCollection({'top@1': Accuracy(top_k=1), 'top@5': Accuracy(top_k=5)})
 
         self.net = net
 
@@ -66,8 +72,9 @@ class TIMMLitModule(LightningModule):
 
         # log train metrics
         acc = self.train_acc(preds, targets)
-        self.log("train/loss", loss, on_step=False, on_epoch=True, prog_bar=False)
-        self.log("train/acc", acc, on_step=False, on_epoch=True, prog_bar=True)
+        self.log("train/loss", loss, on_step=True, on_epoch=True, prog_bar=False)
+        self.log("train/acc", acc, on_step=True, on_epoch=True, prog_bar=True)
+        self.logger.log_hyperparams(self.hparams, {"train/loss": 0, "train/acc": 0})
 
         # we can return here dict with any tensors
         # and then read it in some callback or in `training_epoch_end()` below
@@ -85,7 +92,7 @@ class TIMMLitModule(LightningModule):
         acc = self.val_acc(preds, targets)
         self.log("val/loss", loss, on_step=False, on_epoch=True, prog_bar=False)
         self.log("val/acc", acc, on_step=False, on_epoch=True, prog_bar=True)
-
+        self.logger.log_hyperparams(self.hparams, {"val/loss": 0, "val/acc": 0})
         return {"loss": loss, "preds": preds, "targets": targets}
 
     def validation_epoch_end(self, outputs: List[Any]):

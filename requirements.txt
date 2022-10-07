@@ -16,11 +16,16 @@ wandb
 mlflow
 comet-ml
 
+# --------- demo -----------#
+gradio==3.3.1
+
 # --------- others --------- #
 pyrootutils     # standardizing the project root setup
 pre-commit      # hooks for applying linters on commit
 rich            # beautiful text formatting in terminal
 pytest          # tests
 # sh            # for running bash commands in some tests (linux/macos only)
+
+# --------- data version control --------- #
 dvc             # data version control
 dvc-gdrive      # dvc gdrive access
